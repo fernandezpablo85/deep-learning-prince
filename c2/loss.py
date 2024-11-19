@@ -68,6 +68,14 @@ def solve_generative(points):
     return ø0, ø1
 
 
+def y_loss(points, ø0, ø1):
+    return sum((ø0 + ø1 * x - y) ** 2 for x, y in points)
+
+
+def x_loss(points, ø0, ø1):
+    return sum((ø0 + ø1 * y - x) ** 2 for x, y in points)
+
+
 def main():
     book_xs = [0.03, 0.19, 0.34, 0.46, 0.78, 0.81, 1.08, 1.18, 1.39, 1.60, 1.65, 1.90]
     book_ys = [0.67, 0.85, 1.05, 1.0, 1.40, 1.5, 1.3, 1.54, 1.55, 1.68, 1.73, 1.6]
@@ -76,8 +84,12 @@ def main():
     points = list(zip(xs, ys))
     ø0, ø1 = solve(points)
     gø0, gø1 = solve_generative(points)
-    print(f"f[ø, x] -> y ø0 = {ø0:.2f}, ø1 = {ø1:.2f}")
-    print(f"g[ø, y] -> x ø0 = {gø0:.2f}, ø1 = {gø1:.2f}")
+    print(
+        f"f[ø, x] -> y ø0 = {ø0:.2f}, ø1 = {ø1:.2f}, L(y) = {y_loss(points, ø0, ø1):.2f}, L(x) = {x_loss(points, ø0, ø1):.2f}"
+    )
+    print(
+        f"g[ø, y] -> x ø0 = {gø0:.2f}, ø1 = {gø1:.2f}, L(y) = {y_loss(points, gø0, gø1):.2f}, L(x) = {x_loss(points, gø0, gø1):.2f}"
+    )
 
 
 if __name__ == """__main__""":
